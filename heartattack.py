@@ -94,13 +94,13 @@ hgrad = normalize(hgrad)
 quantile = QuantileTransformer(output_distribution='uniform')
 hgrad = quantile.fit_transform(np.reshape(hgrad, (-1, 1)))
 interpol = pchip([i+0.5 for i in range(len(hr)-1)], hgrad)
-ip = interpol([i for i in range(1, len(hr)-1)])
+ip = interpol([i for i in range(1, len(hr)-1)])**4
 ip = np.nan_to_num(ip)
 h = [0]
 h.extend(list(ip))
 h.extend([0])
 
-colors = ColorArray(color=[[h[i],h[i],h[i]] for i in range(len(h))], color_space='hsv')
+colors = ColorArray(color=[[1,1-h[i],1-h[i]] for i in range(len(h))], color_space='rgb')
 r1.set_data(pos, width=1, color=colors, marker_size=0)
 
 ### APP ###
